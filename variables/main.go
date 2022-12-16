@@ -3,9 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math/rand"
+	"myapp/routine"
 	"os"
-	"time"
 )
 
 const prompt = "and press ENTER"
@@ -23,13 +22,20 @@ func main() {
 		thirdNumber := 6
 	*/
 
-	rand.Seed(time.Now().UnixNano())
-	var firstNumber = rand.Intn(8) + 2
-	var secondNumber = rand.Intn(8) + 2
-	var thirdNumber = rand.Intn(8) + 2
-	var answer = firstNumber*secondNumber - thirdNumber
+	/*
+		rand.Seed(time.Now().UnixNano())
+		var firstNumber = rand.Intn(8) + 2
+		var secondNumber = rand.Intn(8) + 2
+		var thirdNumber = rand.Intn(8) + 2
+		var answer = firstNumber*secondNumber - thirdNumber
 
-	processResult(firstNumber, secondNumber, thirdNumber, answer)
+		processResult(firstNumber, secondNumber, thirdNumber, answer)
+	*/
+
+	//types.TestDataType()
+	//testString.TestSting()
+	//consoleApp.TestConsoleApp()
+	routine.TestRoutine()
 
 }
 
