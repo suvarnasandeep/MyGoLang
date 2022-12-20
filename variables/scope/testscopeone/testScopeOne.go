@@ -1,4 +1,4 @@
-package testone
+package testscopeone
 
 import "fmt"
 

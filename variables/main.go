@@ -3,9 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"myapp/routine"
+	"myapp/scope"
 	"os"
 )
+
+//go mod init
+//go run main.go
 
 const prompt = "and press ENTER"
 
@@ -35,7 +38,11 @@ func main() {
 	//types.TestDataType()
 	//testString.TestSting()
 	//consoleApp.TestConsoleApp()
-	routine.TestRoutine()
+	//routine.TestRoutine()
+	//interfaces.TestInterface()
+	//interfaces.Sandeep()
+	//composition.TestComposition()
+	scope.TestScope()
 
 }
 
