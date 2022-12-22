@@ -32,6 +32,7 @@ func main() {
 	playerChoice, _ = reader.ReadString('\n')
 	playerChoice = strings.Replace(playerChoice, "\n", "", -1)
 
+	fmt.Println("sandeep")
 }
 
 // clearScreen clears the screen
