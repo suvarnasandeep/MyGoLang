@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"time"
 )
 
@@ -20,6 +22,43 @@ type User struct {
 	name     string
 	lastname string
 	age      int
+}
+
+func (u *User) print() {
+	u.age = 40
+	fmt.Println(u.name, u.lastname, u.age)
+}
+
+// interface example
+type Animal interface {
+	says() string
+	hasLegs() int
+}
+
+type Dog struct {
+	name string
+	legs int
+}
+
+type Cat struct {
+	name    string
+	hasTail bool
+}
+
+func (d *Dog) says() string {
+	return "woof"
+}
+
+func (d *Dog) hasLegs() int {
+	return 4
+}
+
+// json support
+type Person struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	HairColor string `json:"hair_color"`
+	HasDog    bool   `json:"has_dog`
 }
 
 func main() {
@@ -59,8 +98,12 @@ func main() {
 		fmt.Println(ptr)
 		fmt.Println(*ptr)
 		fmt.Println(&ptr)
-	*/
 
+		color := "green"
+		fmt.Println("Color is ", color)
+		callPointerFunc(&color)
+		fmt.Println("Color is ", color)
+	*/
 	/*
 		//slices
 		//1st way of declaring
@@ -127,8 +170,10 @@ func main() {
 		user1 := User{"niri", "suvarna", 26}
 		fmt.Println(user1)
 		fmt.Printf("user1 details are %+v\n", user1)
+		fmt.Println("---------------")
+		user.print()
+		fmt.Println(user.age)
 	*/
-
 	/*
 		//switch case
 		rand.Seed(time.Now().UnixNano())
@@ -190,6 +235,122 @@ func main() {
 		printSeparator()
 	*/
 
+	/*
+		//interface
+		dog := Dog{
+			name: "rocky",
+			legs: 4,
+		}
+
+		printDog(&dog)
+	*/
+
+	//readAndWriteJson()
+
+	chanelExample()
+}
+
+func chanelExample() {
+	fmt.Println("First line")
+	c := make(chan int)
+	defer close(c)
+
+	go printGoRoiutine(c)
+
+	fmt.Println("Second line")
+	c <- 10
+	//go printGoRoiutine(c)
+	//c <- 20
+	fmt.Println("Last line")
+
+	myChan := make(chan string)
+
+	go myFunc(myChan)
+
+	for {
+		res, ok := <-myChan
+		if ok == false {
+			fmt.Println("channel close ", ok)
+			break
+		}
+		fmt.Println("channel open ", res, ok)
+	}
+
+}
+
+func myFunc(myChan chan string) {
+
+	for i := 0; i < 4; i++ {
+		myChan <- "sandeep"
+	}
+	close(myChan)
+}
+
+func printGoRoiutine(c chan int) {
+	fmt.Println("Data in the chanel is :", <-c)
+}
+
+func readAndWriteJson() {
+	myJson := `
+	[
+		{
+			"first_name": "Tony",
+			"last_name": "StarK",
+			"hair_color":"grey",
+			"has_dog":true
+		},
+		{
+			"first_name": "Bruce",
+			"last_name": "Banner",
+			"hair_color":"green",
+			"has_dog":false
+		}
+	]
+	`
+	//write json to struct
+	var unMarshalled []Person
+
+	error := json.Unmarshal([]byte(myJson), &unMarshalled)
+	if error != nil {
+		log.Println(error)
+	}
+	log.Printf("Unmarshalled : %v\n", unMarshalled)
+
+	//write struct to json
+
+	var mySlice []Person
+
+	var m1 Person
+	m1.FirstName = "Clark"
+	m1.LastName = "Kent"
+	m1.HairColor = "black"
+	m1.HasDog = true
+
+	var m2 Person
+	m2.FirstName = "Clark"
+	m2.LastName = "Kent"
+	m2.HairColor = "black"
+	m2.HasDog = true
+
+	mySlice = append(mySlice, m1)
+	mySlice = append(mySlice, m2)
+
+	newJson, err := json.MarshalIndent(mySlice, "", "     ")
+	if err != nil {
+		log.Println("error marshalling", err)
+	}
+
+	fmt.Println(string(newJson))
+}
+
+func printDog(a Animal) {
+	fmt.Println("dog says : ", a.says(), "and has ", a.hasLegs(), "legs")
+}
+
+func callPointerFunc(s *string) {
+	fmt.Println(s)
+	newColor := "Red"
+	*s = newColor
 }
 
 func readFile(fileName string) {
